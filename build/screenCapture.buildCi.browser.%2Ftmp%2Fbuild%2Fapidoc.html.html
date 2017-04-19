@@ -1,0 +1,239 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/rafinskipg/git-changelog">git-changelog (v1.1.2)</a>
+</h1>
+<h4>A git changelog tool</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.git-changelog">module git-changelog</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.git-changelog.git-changelog">
+            function <span class="apidocSignatureSpan"></span>git-changelog
+            <span class="apidocSignatureSpan">(grunt)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.git-changelog" id="apidoc.module.git-changelog">module git-changelog</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.git-changelog.git-changelog" id="apidoc.element.git-changelog.git-changelog">
+        function <span class="apidocSignatureSpan"></span>git-changelog
+        <span class="apidocSignatureSpan">(grunt)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">git-changelog = function (grunt) {
+
+  // Project configuration.
+  grunt.initConfig({
+    jshint: {
+      all: [
+        'Gruntfile.js',
+        'tasks/**/*.js',
+        'test/**/*.spec.js'
+      ],
+      options: {
+        jshintrc: '.jshintrc',
+      },
+    },
+
+    // Before generating any new files, remove any previously-created files.
+    clean: {
+      tests: [
+        'output/tag1.md',
+        'EXTENDEDCHANGELOG.md'
+      ],
+    },
+
+    // Configuration to be run (and then tested).
+    git_changelog: {
+      minimal: {
+        options: {
+          app_name : 'Git changelog',
+          logo : 'https://github.com/rafinskipg/git-changelog/raw/master/images/git-changelog-logo.png',
+          intro : 'Git changelog is a utility tool for generating changelogs. It is free and opensource. :)'
+        }
+      },
+      tag1: {
+        options: {
+          app_name : 'Since tag 1 changelog',
+          intro: 'This changelog is from the previous tag',
+          file: 'output/tag1.md',
+          logo : 'https://github.com/rafinskipg/git-changelog/raw/master/images/git-changelog-logo.png',
+          version_name : 'squeezy potatoe',
+          tag: 'v0.0.1',
+          debug: true,
+          sections: [
+            {
+              "title": "Bug Fixes",
+              "grep": "^fix"
+            },
+            {
+              "title": "Pull requests merged",
+              "grep": "^Merge pull request"
+            }
+          ]
+        }
+      },
+      customTemplate: {
+        options: {
+          app_name : 'Custom Template',
+          intro: 'This changelog is generated with a custom template',
+          file: 'output/customTemplate.md',
+          template: 'templates/template_two.md',
+          logo : 'https://github.com/rafinskipg/git-changelog/raw/master/images/git-changelog-logo.png',
+          version_name : 'squeezy potatoe',
+          tag: 'v0.0.1',
+          debug: true
+        }
+      },
+      extended: {
+        options: {
+          app_name : 'Git changelog extended',
+          logo : 'https://github.com/rafinskipg/git-changelog/raw/master/images/git-changelog-logo.png',
+          intro : 'Git changelog is a utility tool for generating changelogs. It is free and opensource. :)',
+          repo_url: 'https://github.com/rafinskipg/git-changelog',
+          tag: false,
+          debug: true,
+          file : 'EXTENDEDCHANGELOG.md',
+          sections: [
+            {
+              "title": "Bug Fixes",
+              "grep": "^fix"
+            },
+            {
+              "title": "Features",
+              "grep": "^feat"
+            },
+            {
+              "title": "Documentation",
+              "grep": "^docs"
+            },
+            {
+              "title": "Breaking changes",
+              "grep": "BREAKING"
+            },
+            {
+              "title": "Refactor",
+              "grep": "^refactor"
+            },
+            {
+              "title": "Style",
+              "grep": "^style"
+            },
+            {
+              "title": "Test",
+              "grep": "^test"
+            },
+            {
+              "title": "Chore",
+              "grep": "^chore"
+            },
+            {
+              "title": "Branchs merged",
+              "grep": "^Merge branch"
+            },
+            {
+              "title" : "Pull requests merged",
+              "grep": "^Merge pull request"
+            }
+          ]
+        }
+      }
+    },
+
+    // Unit tests.
+    nodeunit: {
+      tests: ['test/*_test.js'],
+    },
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          //captureFile: 'tests/results.txt', // Optionally capture the reporter output to a file
+          quiet: false // Optionally suppress output to standard out (defaults to false)
+        },
+        src: ['test/**/*.spec.js']
+      }
+    },
+
+  });
+
+  // Actually load this plugin's task(s).
+  grunt.loadTasks('tasks');
+
+  // These plugins provide necessary tasks.
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-mocha-test');
+
+  // Whenever the "test" task is ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
